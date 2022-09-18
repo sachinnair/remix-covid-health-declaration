@@ -36,3 +36,9 @@ model Note {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
 }
+
+model Citizen {
+  id    String @id @default(cuid())
+  name  String
+  temperature Int
+}
