@@ -40,5 +40,6 @@ model Note {
 model Citizen {
   id    String @id @default(cuid())
   name  String
-  temperature Int
+  temperature Float 
+  isDegreeCelsius Boolean 
 }
