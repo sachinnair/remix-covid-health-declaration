@@ -4,24 +4,7 @@ import type { LinksFunction } from "@remix-run/node";
 
 import type { ActionFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { prisma } from "~/db.server";
-
-export const action: ActionFunction = async ({ request }) => {
-  const form = await request.formData();
-  const name = form.get("full-name");
-  const temperature = parseFloat(form.get("temperature") as string);
-  const isDegreeCelsius = form.get("isDegreeCelsius") === "true";
-  // we do this type check to be extra sure and to make TypeScript happy
-  // we'll explore validation next!
-  if (typeof name !== "string" || (typeof temperature !== "number" && !isNaN(temperature))) {
-    throw new Error(`Form not submitted correctly.`);
-  }
-
-  const fields = { name, temperature, isDegreeCelsius };
-
-  await prisma.citizen.create({ data: fields });
-  return redirect(`/declarations`);
-};
+import { createCitizen } from "~/models/citizen.server";
 
 import {
   Input,
@@ -48,6 +31,24 @@ import {
 } from "@chakra-ui/react";
 
 import stylesUrl from "~/styles/declarations.css";
+
+export const action: ActionFunction = async ({ request }) => {
+  const form = await request.formData();
+  const name = form.get("full-name");
+  const temperature = parseFloat(form.get("temperature") as string);
+  const isDegreeCelsius = form.get("isDegreeCelsius") === "true";
+  // we do this type check to be extra sure and to make TypeScript happy
+  // we'll explore validation next!
+  if (typeof name !== "string" || (typeof temperature !== "number" && !isNaN(temperature))) {
+    throw new Error(`Form not submitted correctly.`);
+  }
+
+  const fields = { name, temperature, isDegreeCelsius };
+
+  await createCitizen({ data: fields });
+
+  return redirect(`/declarations`);
+};
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesUrl }];
