@@ -41,5 +41,6 @@ model Citizen {
   id    String @id @default(cuid())
   name  String
   temperature Float 
-  isDegreeCelsius Boolean 
+  isDegreeCelsius Boolean @default(true)
+  createdDate DateTime @default(now())
 }
