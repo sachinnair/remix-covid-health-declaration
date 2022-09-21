@@ -1,36 +1,17 @@
-import { useState, useEffect } from "react";
-import { Form } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 
 import type { ActionFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
+import type { TCitizen } from "~/models/citizen.server";
 import { createCitizen } from "~/models/citizen.server";
 
-import {
-  Input,
-  Box,
-  Center,
-  Image,
-  Flex,
-  Badge,
-  Text,
-  FormLabel,
-  NumberInput,
-  FormControl,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
-  Button,
-  ButtonGroup,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInputField,
-  NumberInputStepper,
-  useBoolean,
-  Container,
-} from "@chakra-ui/react";
+import { Box, Button, Container } from "@chakra-ui/react";
 
 import stylesUrl from "~/styles/declarations.css";
+import FormBasics from "~/components/FormBasics";
+import Symptoms from "~/components/Symptoms";
+import CovidContact from "~/components/CovidContact";
 
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
@@ -39,15 +20,21 @@ export const action: ActionFunction = async ({ request }) => {
   const isDegreeCelsius = form.get("isDegreeCelsius") === "true";
   // we do this type check to be extra sure and to make TypeScript happy
   // we'll explore validation next!
-  if (typeof name !== "string" || (typeof temperature !== "number" && !isNaN(temperature))) {
+  if (
+    typeof name !== "string" ||
+    (typeof temperature !== "number" && !isNaN(temperature))
+  ) {
     throw new Error(`Form not submitted correctly.`);
   }
 
-  const fields = { name, temperature, isDegreeCelsius };
+  const fields: TCitizen = { name, temperature };
+  if (!isDegreeCelsius) {
+    fields["isDegreeCelsius"] = isDegreeCelsius;
+  }
 
   await createCitizen({ data: fields });
 
-  return redirect(`/declarations`);
+  return redirect(`/declarations/basics`);
 };
 
 export const links: LinksFunction = () => {
@@ -55,73 +42,24 @@ export const links: LinksFunction = () => {
 };
 
 export default function Basics() {
-  const [isDegreeCelsius, setIsDegreeCelsius] = useBoolean(true);
-
-  const [temperature, setTemperature] = useState<string | number>("");
-  useEffect(() => {
-    if (temperature >= 35 && temperature <= 41 && !isDegreeCelsius) {
-      setIsDegreeCelsius.on();
-    } else if (temperature >= 95 && temperature <= 105.8 && isDegreeCelsius) {
-      setIsDegreeCelsius.off();
-    }
-  }, [temperature]);
-
   return (
     <Container>
       <Box>
         <Form method="post">
-          <div>
-            <FormLabel
-              className="mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right"
-              htmlFor="details-full-name"
+          <FormBasics />
+          <br />
+          <Symptoms />
+          <br />
+          <CovidContact clickHandler={() => {}} />
+          <div className="mt-5 flex w-full justify-end">
+            <Link
+              to="/review"
+              className="flex items-center justify-center rounded-md bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
             >
-              Full Name
-            </FormLabel>
-
-            <Input
-              className=""
-              name="full-name"
-              id="details-full-name"
-              type="text"
-              placeholder="Jane Doe"
-            />
+              Next
+            </Link>
           </div>
-          <div>
-            <FormControl>
-              <FormLabel>Temperature</FormLabel>
-              <InputGroup>
-                <NumberInput
-                  onChange={(val) => setTemperature(val as unknown as number)}
-                  value={temperature}
-                  name="temperature"
-                  max={isDegreeCelsius ? 41.0 : 105.8}
-                  min={isDegreeCelsius ? 35 : 95}
-                >
-                  <NumberInputField />
-                </NumberInput>
-                <ButtonGroup isAttached variant="outline" className="ml-2">
-                  <Button
-                    isActive={isDegreeCelsius}
-                    onClick={setIsDegreeCelsius.on}
-                  >
-                    &#176; C
-                  </Button>
-                  <Button
-                    isActive={!isDegreeCelsius}
-                    onClick={setIsDegreeCelsius.off}
-                  >
-                    &#176; F
-                  </Button>
-                </ButtonGroup>
-                <input
-                  type="hidden"
-                  name="isDegreeCelsius"
-                  value={isDegreeCelsius as unknown as string}
-                />
-              </InputGroup>
-            </FormControl>
-          </div>
-          <div className="mt-5">
+          <div className="mt-5 flex w-full justify-end">
             <Button type="submit">Submit</Button>
           </div>
         </Form>
