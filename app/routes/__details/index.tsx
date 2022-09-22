@@ -1,17 +1,24 @@
-import { Form, Link } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
+import { Form, Link, useOutletContext } from "@remix-run/react";
 
-import type { ActionFunction } from "@remix-run/node";
+// import { Outlet } from "@remix-run/react";
+// import type { LoaderFunction } from "@remix-run/server-runtime";
+import type { LinksFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import type { TCitizen } from "~/models/citizen.server";
 import { createCitizen } from "~/models/citizen.server";
 
+import stylesUrl from "~/styles/declarations.css";
+
 import { Box, Button, Container } from "@chakra-ui/react";
 
-import stylesUrl from "~/styles/declarations.css";
 import FormBasics from "~/components/FormBasics";
 import Symptoms from "~/components/Symptoms";
 import CovidContact from "~/components/CovidContact";
+
+// export const loader: LoaderFunction = () => {
+//   return redirect("/");
+// }
 
 export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
@@ -34,14 +41,14 @@ export const action: ActionFunction = async ({ request }) => {
 
   await createCitizen({ data: fields });
 
-  return redirect(`/declarations/basics`);
+  return redirect(`/review`);
 };
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesUrl }];
 };
 
-export default function Basics() {
+export default function Details() {
   return (
     <Container>
       <Box>
@@ -52,15 +59,7 @@ export default function Basics() {
           <br />
           <CovidContact clickHandler={() => {}} />
           <div className="mt-5 flex w-full justify-end">
-            <Link
-              to="/review"
-              className="flex items-center justify-center rounded-md bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
-            >
-              Next
-            </Link>
-          </div>
-          <div className="mt-5 flex w-full justify-end">
-            <Button type="submit">Submit</Button>
+            <Button colorScheme={'telegram'} type="submit">Submit</Button>
           </div>
         </Form>
       </Box>
