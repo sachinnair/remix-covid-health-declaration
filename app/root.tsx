@@ -19,12 +19,12 @@ import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { useContext, useEffect } from "react";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }, { rel:"icon", href: 'https://www.tech.gov.sg/images/favicon-govtech.ico', type:'image/icon type' }];
 };
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Remix Notes",
+  title: "GovTech - Health Declaration",
   viewport: "width=device-width,initial-scale=1",
 });
 
@@ -70,7 +70,7 @@ const Document = withEmotionCache(
             />
           ))}
         </head>
-        <body>
+        <body className="mb-20">
           {children}
           <ScrollRestoration />
           <Scripts />
