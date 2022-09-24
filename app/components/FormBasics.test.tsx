@@ -13,7 +13,6 @@ describe("Basics form test", () => {
   test("should be able to enter valid temperatures in Celsius", async () => {
     const user = userEvent.setup();
     render(<Component />);
-    // const temperatureField = screen.getByRole("spinbutton");
     const temperatureField = screen.getByRole("spinbutton", {
       name: "Temperature",
     });
@@ -27,13 +26,11 @@ describe("Basics form test", () => {
   test("should be able to enter valid temperatures in Fahrenheit", async () => {
     const user = userEvent.setup();
     render(<Component />);
-    // const temperatureField = screen.getByRole("spinbutton");
     const temperatureField = screen.getByRole("spinbutton", {
       name: "Temperature",
     });
     await user.click(temperatureField);
     await user.keyboard("39");
-    screen.debug();
     expect(screen.getByText(/° C/i)).toHaveAttribute("data-active");
   });  
 });

@@ -8,8 +8,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 
-import type { LoaderFunction } from "@remix-run/node";
-import { useOutletContext, useTransition } from "@remix-run/react";
+import { useOutletContext } from "@remix-run/react";
 import { useEffect, useState } from "react";
 
 import { SYMPTOMS } from "~/constants";
@@ -20,24 +19,10 @@ const TABLE_DATA_MAPPER: {[key: string]: string} = {
   "hadCovidContact": "Past contact with a Covid Patient",
 }
 
-// export const loader: LoaderFunction = () => {
-//   return redirect("/");
-// }
-
-const dummyData = { prop1: "val1", prop2: "val2", prop3: "val3" };
-
 export default function Review() {
   const formDataContext = useOutletContext<{ [key: string]: string }>();
   const [tableData, setTableData] = useState<{ [key: string]: string }[]>([]);
   const [rowSpan, setRowSpan] = useState<number>();
-  /* const [someContext, setSomeContext] = useState<{}>({});
-  useEffect(() => {
-    console.log(someContext);
-    console.log('log me', transition.submission?.formData);
-    if(transition.submission) {
-      setSomeContext(transition.submission);
-    }
-  }); */
 
   useEffect(() => {
     console.log("Yay!", formDataContext);
@@ -93,7 +78,7 @@ export default function Review() {
           <Tbody>
             {tableData.map((rowData, index) => (
               <Tr className="border text-center font-extralight" key={index} >
-                {rowData.col1 && <Td rowspan={rowData.col1 === 'Symptoms' ? rowSpan : 1}>{rowData.col1}</Td>}
+                {rowData.col1 && <Td rowSpan={rowData.col1 === 'Symptoms' ? rowSpan : 1}>{rowData.col1}</Td>}
                 <Td w="60%" className="border">
                   {rowData.col2}
                 </Td>
