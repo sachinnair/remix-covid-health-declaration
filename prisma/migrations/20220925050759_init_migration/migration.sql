@@ -26,6 +26,17 @@ CREATE TABLE "Note" (
     CONSTRAINT "Note_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Citizen" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "temperature" DOUBLE PRECISION NOT NULL,
+    "isDegreeCelsius" BOOLEAN NOT NULL DEFAULT true,
+    "createdDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Citizen_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
