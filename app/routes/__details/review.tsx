@@ -25,7 +25,6 @@ export default function Review() {
   const [rowSpan, setRowSpan] = useState<number>();
 
   useEffect(() => {
-    console.log("Yay!", formDataContext);
     if(tableData.length === 0) {
       const tdValues = [];
       let countOfSymptoms = 0;
@@ -74,12 +73,12 @@ export default function Review() {
         Thank you! Data was submitted successfully!
       </Text>
       <TableContainer maxWidth="md" className="ml-auto mr-auto mt-5">
-        <Table className="border-collapse border border-slate-300">
+        <Table whiteSpace="normal" className="border-collapse border border-slate-300 table-fixed">
           <Tbody>
             {tableData.map((rowData, index) => (
               <Tr className="border text-center font-extralight" key={index} >
-                {rowData.col1 && <Td rowSpan={rowData.col1 === 'Symptoms' ? rowSpan : 1}>{rowData.col1}</Td>}
-                <Td w="60%" className="border">
+                {rowData.col1 && <Td w="40%" className="break-all" rowSpan={rowData.col1 === 'Symptoms' ? rowSpan : undefined }>{rowData.col1}</Td>}
+                <Td w="60%" className="break-all border">
                   {rowData.col2}
                 </Td>
               </Tr>

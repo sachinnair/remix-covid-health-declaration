@@ -1,9 +1,6 @@
 import { Text } from "@chakra-ui/react";
 import {
   Outlet,
-  useFetcher,
-  useFetchers,
-  useOutletContext,
   useTransition,
 } from "@remix-run/react";
 import { useEffect, useState } from "react";
@@ -32,19 +29,8 @@ export default function Declarations() {
         <Text as="b" fontSize="4xl">
           HEALTH DECLARATION
         </Text>
-        <div>
-          <span>Annoying: {transition?.state}</span>
-        </div>
       </div>
       <Outlet context={formSentData} />
     </main>
   );
-}
-function isEmpty(someContext: {}) {
-  if (Object.keys(someContext).length === 0) {
-    return true;
-  } else {
-    return false;
-  }
-  // throw new Error("Function not implemented.");
 }
