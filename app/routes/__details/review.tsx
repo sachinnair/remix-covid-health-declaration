@@ -25,7 +25,6 @@ export default function Review() {
   const [rowSpan, setRowSpan] = useState<number>();
 
   useEffect(() => {
-    console.log("Yay!", formDataContext);
     if(tableData.length === 0) {
       const tdValues = [];
       let countOfSymptoms = 0;
