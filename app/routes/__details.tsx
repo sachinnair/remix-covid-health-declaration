@@ -1,8 +1,5 @@
 import { Text } from "@chakra-ui/react";
-import {
-  Outlet,
-  useTransition,
-} from "@remix-run/react";
+import { Outlet, useTransition } from "@remix-run/react";
 import { useEffect, useState } from "react";
 // import type { LoaderFunction } from "@remix-run/server-runtime";
 // import { redirect } from "@remix-run/node";
@@ -13,7 +10,7 @@ export default function Declarations() {
   const [formSentData, setFormSentData] = useState<{}>({});
 
   useEffect(() => {
-    if(transition.submission?.formData.has('temperature')) {
+    if (transition.submission?.formData.has("temperature")) {
       const formData = transition?.submission.formData.entries();
       setFormSentData({ ...Object.fromEntries(formData) });
     }

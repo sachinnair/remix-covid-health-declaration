@@ -1,6 +1,6 @@
 import { PassThrough } from "stream";
-import { CacheProvider } from '@emotion/react'
-import createEmotionServer from '@emotion/server/create-instance'
+import { CacheProvider } from "@emotion/react";
+import createEmotionServer from "@emotion/server/create-instance";
 
 import type { EntryContext } from "@remix-run/node";
 import { Response } from "@remix-run/node";
@@ -8,9 +8,8 @@ import { RemixServer } from "@remix-run/react";
 import isbot from "isbot";
 import { renderToPipeableStream, renderToString } from "react-dom/server";
 
-import { ServerStyleContext } from './context'
-import createEmotionCache from './createEmotionCache'
-
+import { ServerStyleContext } from "./context";
+import createEmotionCache from "./createEmotionCache";
 
 const ABORT_DELAY = 5000;
 
@@ -20,18 +19,18 @@ export default function handleRequest(
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  const cache = createEmotionCache()
-  const { extractCriticalToChunks } = createEmotionServer(cache)
+  const cache = createEmotionCache();
+  const { extractCriticalToChunks } = createEmotionServer(cache);
 
   const html = renderToString(
     <ServerStyleContext.Provider value={null}>
       <CacheProvider value={cache}>
         <RemixServer context={remixContext} url={request.url} />
       </CacheProvider>
-    </ServerStyleContext.Provider>,
-  )
+    </ServerStyleContext.Provider>
+  );
 
-  const chunks = extractCriticalToChunks(html)
+  const chunks = extractCriticalToChunks(html);
 
   const callbackName = isbot(request.headers.get("user-agent"))
     ? "onAllReady"

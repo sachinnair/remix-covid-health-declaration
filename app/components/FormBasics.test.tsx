@@ -32,7 +32,7 @@ describe("Basics form test", () => {
     await user.click(temperatureField);
     await user.keyboard("39");
     expect(screen.getByText(/° C/i)).toHaveAttribute("data-active");
-  });  
+  });
 });
 
 // https://github.com/capricorn86/happy-dom/issues/534

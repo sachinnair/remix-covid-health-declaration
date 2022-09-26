@@ -32,7 +32,7 @@ export default function FormBasics() {
       </Text>
       <div>
         <FormLabel
-          className="mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right mt-5"
+          className="mb-1 mt-5 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right"
           htmlFor="details-full-name"
         >
           Full Name
@@ -44,11 +44,12 @@ export default function FormBasics() {
           id="details-full-name"
           type="text"
           placeholder="Jane Doe"
+          isRequired
         />
       </div>
       <div>
         <FormControl>
-          <FormLabel className="mb-1 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right mt-5">
+          <FormLabel className="mb-1 mt-5 block pr-4 font-bold text-gray-500 md:mb-0 md:text-right">
             Temperature
           </FormLabel>
           <InputGroup>

@@ -39,9 +39,8 @@ export const action: ActionFunction = async ({ request }) => {
     fields["isDegreeCelsius"] = isDegreeCelsius;
   }
 
-  await createCitizen({ data: fields });
-
-  return redirect(`/review`);
+  const { id: recordId } = await createCitizen({ data: fields });
+  return redirect(`/review?recordId=${recordId}`);
 };
 
 export const links: LinksFunction = () => {
@@ -59,7 +58,9 @@ export default function Details() {
           <br />
           <CovidContact clickHandler={() => {}} />
           <div className="mt-5 flex w-full justify-end">
-            <Button colorScheme={'telegram'} type="submit">Submit</Button>
+            <Button colorScheme={"telegram"} type="submit">
+              Submit
+            </Button>
           </div>
         </Form>
       </Box>

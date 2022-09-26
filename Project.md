@@ -4,11 +4,10 @@ This project intends to explore Remix framework, an open sourced full stack web 
 
 A basic Covid-19 Health declaration form is created whose requirements are captured here.
 
-
 In this journey, following technologies were utilised:
 Chakra UI - modular and accessible component library for react
 Tailwind - CSS Framework
-Prisma - ORM for Node.js / Typescript 
+Prisma - ORM for Node.js / Typescript
 Github Actions - creating workflows for CI / CD
 SonarCloud - Static code analysis
 Figma - design
