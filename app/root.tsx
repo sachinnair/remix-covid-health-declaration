@@ -17,6 +17,7 @@ import { ServerStyleContext, ClientStyleContext } from "./context";
 import { getUser } from "./session.server";
 import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { useContext, useEffect } from "react";
+import { ErrorPage } from "./components/ErrorPage";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: tailwindStylesheetUrl }, { rel:"icon", href: 'https://www.tech.gov.sg/images/favicon-govtech.ico', type:'image/icon type' }];
@@ -27,6 +28,22 @@ export const meta: MetaFunction = () => ({
   title: "GovTech - Health Declaration",
   viewport: "width=device-width,initial-scale=1",
 });
+
+export function ErrorBoundary({ error }) {
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <ErrorPage />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
 
 export async function loader({ request }: LoaderArgs) {
   return json({
