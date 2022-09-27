@@ -20,7 +20,14 @@ import { useContext, useEffect } from "react";
 import { ErrorPage } from "./components/ErrorPage";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }, { rel:"icon", href: 'https://www.tech.gov.sg/images/favicon-govtech.ico', type:'image/icon type' }];
+  return [
+    { rel: "stylesheet", href: tailwindStylesheetUrl },
+    {
+      rel: "icon",
+      href: "https://www.tech.gov.sg/images/favicon-govtech.ico",
+      type: "image/icon type",
+    },
+  ];
 };
 
 export const meta: MetaFunction = () => ({

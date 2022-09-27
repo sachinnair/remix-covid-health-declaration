@@ -23,7 +23,8 @@ export function ErrorPage() {
               <p className="mb-8 text-lg">
                 The page you are looking for it maybe deleted
               </p>
-              <a href="/"
+              <a
+                href="/"
                 className="
                   hover:text-primary
                   inline-block

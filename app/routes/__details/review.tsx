@@ -9,15 +9,21 @@ import {
 } from "@chakra-ui/react";
 
 import { useOutletContext } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/server-runtime";
+import { json } from "@remix-run/server-runtime";
 import { useEffect, useState } from "react";
 
 import { SYMPTOMS } from "~/constants";
 
-const TABLE_DATA_MAPPER: {[key: string]: string} = {
-  "full-name": 'Full Name',
-  "temperature": "Temperature",
-  "hadCovidContact": "Past contact with a Covid Patient",
-}
+const TABLE_DATA_MAPPER: { [key: string]: string } = {
+  "full-name": "Full Name",
+  temperature: "Temperature",
+  hadCovidContact: "Past contact with a Covid Patient",
+};
+
+export const loader: LoaderFunction = async ({ params }) => {
+  return json(params);
+};
 
 export default function Review() {
   const formDataContext = useOutletContext<{ [key: string]: string }>();
@@ -25,7 +31,7 @@ export default function Review() {
   const [rowSpan, setRowSpan] = useState<number>();
 
   useEffect(() => {
-    if(tableData.length === 0) {
+    if (tableData.length === 0) {
       const tdValues = [];
       let countOfSymptoms = 0;
       for (const index in formDataContext) {
@@ -44,17 +50,19 @@ export default function Review() {
               col2: SYMPTOMS[index.replace(/has/, "")],
             };
           }
-        } else if(index !== 'isDegreeCelsius') {
+        } else if (index !== "isDegreeCelsius") {
           let col2Value = formDataContext[index];
-          if(index === 'temperature') {
-            col2Value += ` \xB0${formDataContext['isDegreeCelsius'] ? 'C' : 'F'}`
+          if (index === "temperature") {
+            col2Value += ` \xB0${
+              formDataContext["isDegreeCelsius"] ? "C" : "F"
+            }`;
           }
           transformer = {
             col1: TABLE_DATA_MAPPER[index],
-            col2: col2Value
+            col2: col2Value,
           };
         }
-  
+
         transformer && tdValues.push(transformer);
       }
       setRowSpan(countOfSymptoms);
@@ -73,11 +81,22 @@ export default function Review() {
         Thank you! Data was submitted successfully!
       </Text>
       <TableContainer maxWidth="md" className="ml-auto mr-auto mt-5">
-        <Table whiteSpace="normal" className="border-collapse border border-slate-300 table-fixed">
+        <Table
+          whiteSpace="normal"
+          className="table-fixed border-collapse border border-slate-300"
+        >
           <Tbody>
             {tableData.map((rowData, index) => (
-              <Tr className="border text-center font-extralight" key={index} >
-                {rowData.col1 && <Td w="40%" className="break-all" rowSpan={rowData.col1 === 'Symptoms' ? rowSpan : undefined }>{rowData.col1}</Td>}
+              <Tr className="border text-center font-extralight" key={index}>
+                {rowData.col1 && (
+                  <Td
+                    w="40%"
+                    className="break-all"
+                    rowSpan={rowData.col1 === "Symptoms" ? rowSpan : undefined}
+                  >
+                    {rowData.col1}
+                  </Td>
+                )}
                 <Td w="60%" className="break-all border">
                   {rowData.col2}
                 </Td>
