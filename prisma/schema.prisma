@@ -42,5 +42,16 @@ model Citizen {
   name  String
   temperature Float 
   isDegreeCelsius Boolean @default(true)
+  hasCough Boolean @default(false)
+  hasSti Boolean @default(false)
+  hasFever Boolean @default(false)
+  hasBreathDiff Boolean @default(false)
+  hasBodyAches Boolean @default(false)
+  hasHeadaches Boolean @default(false)
+  hasFatigue Boolean @default(false)
+  hasSoreThroat Boolean @default(false)
+  hasDiarrhoea Boolean @default(false)
+  hasRunnyNose Boolean @default(false)
+
   createdDate DateTime @default(now())
 }

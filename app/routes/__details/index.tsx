@@ -15,6 +15,7 @@ import { Box, Button, Container } from "@chakra-ui/react";
 import FormBasics from "~/components/FormBasics";
 import Symptoms from "~/components/Symptoms";
 import CovidContact from "~/components/CovidContact";
+import { SYMPTOMS as LISTOFSYMPTOMS } from "~/constants";
 
 // export const loader: LoaderFunction = () => {
 //   return redirect("/");
@@ -25,6 +26,7 @@ export const action: ActionFunction = async ({ request }) => {
   const name = form.get("full-name");
   const temperature = parseFloat(form.get("temperature") as string);
   const isDegreeCelsius = form.get("isDegreeCelsius") === "true";
+
   // we do this type check to be extra sure and to make TypeScript happy
   // we'll explore validation next!
   if (
@@ -38,6 +40,14 @@ export const action: ActionFunction = async ({ request }) => {
   if (!isDegreeCelsius) {
     fields["isDegreeCelsius"] = isDegreeCelsius;
   }
+
+  for (let SYMPTOM of Object.keys(LISTOFSYMPTOMS)) {
+    if (form.get('has' + SYMPTOM) !== null) {
+      fields['has' + SYMPTOM] = true;
+    }
+  }
+
+  debugger;
 
   const { id: recordId } = await createCitizen({ data: fields });
   return redirect(`/review?recordId=${recordId}`);
